@@ -1,4 +1,4 @@
-package aadi;
+package chase;
 
 public class LevelScene extends Scene{
     public LevelScene() {

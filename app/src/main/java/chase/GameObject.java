@@ -1,4 +1,4 @@
-package aadi;
+package chase;
 
 import java.util.*;
 
@@ -64,6 +64,12 @@ public class GameObject {
     public  void start() {
         for (int i = 0; i < components.size(); i++) {
             components.get(i).start();
+        }
+    }
+
+    public void imgui() {
+        for (Component c : components) {
+            c.imgui();
         }
     }
 

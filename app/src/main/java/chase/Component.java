@@ -1,4 +1,4 @@
-package aadi;
+package chase;
 
 public abstract class Component {
 
@@ -8,5 +8,11 @@ public abstract class Component {
 
     }
 
-    public abstract void update(double dt);
+    public void update(double dt) {
+        
+    }
+
+    public void imgui() {
+
+    }
 }

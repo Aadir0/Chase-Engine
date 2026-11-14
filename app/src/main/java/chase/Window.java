@@ -1,4 +1,4 @@
-package aadi;
+package chase;
 
 import org.lwjgl.Version;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -152,7 +152,7 @@ public class Window {
             if (dt >= 0) {
                 currentScene.update(dt);
             }
-            this.imguiLayer.update(dt);
+            this.imguiLayer.update(dt, currentScene);
             
             glfwSwapBuffers(glfwWindow);
             

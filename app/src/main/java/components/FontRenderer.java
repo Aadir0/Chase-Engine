@@ -1,6 +1,6 @@
 package components;
 
-import aadi.Component;
+import chase.Component;
 
 public class FontRenderer extends Component {
 

@@ -81,11 +81,12 @@ Chase-Engine/
 │   ├── build.gradle
 │   └── src/main/java/
 │       ├── Main.java              # Application entry point
-│       ├── aadi/                  # Core engine systems (Window, Scene, Camera, Input, ImGui)
+│       ├── chase/                 # Core engine systems (Window, Scene, Camera, Input, ImGui)
 │       ├── components/            # Game components (Sprite, SpriteRenderer, Spritesheet)
 │       ├── renderer/              # Batch renderer, Shader, and Texture management
 │       └── util/                  # Asset pooling and resource utilities
 ├── assets/
+│   ├── fonts/                     # TTF Fonts
 │   ├── images/                    # Spritesheets and textures
 │   └── shaders/                   # GLSL shader programs
 ├── gradle/                        # Gradle wrapper and version catalog

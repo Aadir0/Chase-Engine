@@ -1,15 +1,18 @@
-package aadi;
+package chase;
 
 import renderer.Renderer;
 
 import java.util.*;
+
+import imgui.ImGui;
 
 public abstract class Scene {
     
     protected Renderer renderer = new Renderer();
     protected Camera camera;
     private boolean isRunning = false;
-    protected  List<GameObject> gameObjects = new ArrayList<>();
+    protected List<GameObject> gameObjects = new ArrayList<>();
+    protected GameObject activGameObject = null;
 
     public Scene() {
 
@@ -42,5 +45,19 @@ public abstract class Scene {
 
     public Camera camera() {
         return this.camera;
+    }
+
+    public void sceneImgui() {
+        if (activGameObject != null) {
+            ImGui.begin("Inspector");
+            activGameObject.imgui();
+            ImGui.end();
+        }
+
+        imgui();
+    }
+
+    public void imgui() {
+
     }
 }

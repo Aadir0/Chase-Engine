@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import aadi.GameObject;
+import chase.GameObject;
 import components.SpriteRenderer;
 
 public class Renderer {
