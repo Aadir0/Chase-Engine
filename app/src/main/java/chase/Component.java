@@ -1,8 +1,13 @@
 package chase;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
+import imgui.ImGui;
+
 public abstract class Component {
 
-    public GameObject gameObject = null;
+    public transient GameObject gameObject = null;
 
     public void start() {
 
@@ -13,6 +18,37 @@ public abstract class Component {
     }
 
     public void imgui() {
+        try {
+            Field[] fields = this.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                boolean isTransient = Modifier.isTransient(field.getModifiers());
+                if (isTransient) {
+                    continue;
+                }
 
+                boolean isPrivate = Modifier.isPrivate(field.getModifiers());
+                if (isPrivate) {
+                    field.setAccessible(true);
+                }
+
+                Class type = field.getType();
+                Object value = field.get(this);
+                String name = field.getName();
+
+                if (type == int.class) {
+                    int val = (int)value;
+                    int[] imInt = {val};
+                    if (ImGui.dragInt(name + ": ", imInt)) {
+                        field.set(this, imInt[0]);
+                    }
+                }
+
+                if (isPrivate) {
+                    field.setAccessible(false);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();    
+        }
     }
 }

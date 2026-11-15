@@ -3,7 +3,6 @@ package util;
 import renderer.*;
 
 import java.io.File;
-import java.lang.annotation.Retention;
 import java.util.*;
 
 import components.Spritesheet;
@@ -31,7 +30,8 @@ public class AssetPool {
         if (AssetPool.textures.containsKey(file.getAbsolutePath())) {
             return AssetPool.textures.get(file.getAbsolutePath());
         } else {
-            Texture texture = new Texture(resourceName);
+            Texture texture = new Texture();
+            texture.init(resourceName);
             AssetPool.textures.put(file.getAbsolutePath(), texture);
             return texture;
         }
