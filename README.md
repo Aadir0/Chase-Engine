@@ -7,30 +7,42 @@ A 2D Game Engine built in Java utilizing **LWJGL 3 (Lightweight Java Game Librar
 ## Features
 
 - **Batch Renderer:**
-  - High-performance 2D quad batching with dynamic vertex buffer uploading (`glBufferSubData`).
+  - High-performance 2D quad batching with dynamic vertex buffer streaming (`glBufferSubData`).
   - Multi-texture batching supporting up to 8 hardware texture slots per batch.
   - Layer-based Z-indexing and depth ordering for sprites.
+- **2D Physics Engine (`physics2d`):**
+  - Geometric primitives: `AABB`, `Box2D`, `Circle`, `Collider2D`, `Ray2D`, `RaycastResult`.
+  - Collision detection & intersection tests via `IntersectionDetector2D` (point, ray, circle, and box intersections).
+  - Physics body representation via `Rigidbody2D`.
+- **Debug Drawing System (`renderer.DebugDraw`):**
+  - Immediate-mode 2D debug rendering for lines, boxes, and circles with configurable lifetimes and colors.
+  - Dedicated debug shader pipeline (`debugLine2D.glsl`).
+- **Level Editor & Tooling (`scenes.LevelEditorScene`):**
+  - Embedded **Dear ImGui** editor with High-DPI and framebuffer scaling support.
+  - Palette window displaying spritesheet icons with automatic responsive wrapping.
+  - **Drag-and-Drop Placement (`MouseControls`):** Interactive object placement snapped to grid dimensions.
+  - **Editor Grid Lines (`GridLines`):** Dynamic viewport editor grid rendered via debug line batching.
+  - **Prefabs (`Prefabs`):** Factory helpers to instantiate standard sprite objects.
 - **Component-Based Entity Architecture:**
-  - Modular `GameObject` system with dynamic `Component` attachment.
-  - Built-in components including `Transform`, `SpriteRenderer`, and `FontRenderer`.
+  - Modular `GameObject` hierarchy with runtime `Component` attachment.
+  - Built-in components: `Transform`, `SpriteRenderer`, `FontRenderer`, `Rigidbody`, `MouseControls`, `GridLines`.
   - Scene management system (`Scene`, `LevelEditorScene`, `LevelScene`).
+- **Scene Serialization & Deserialization:**
+  - Full scene persistence to JSON via **Gson** with polymorphic component adapters (`ComponentDeserializer`, `GameObjectDeserializer`).
+  - Automatic level loading and saving (`level.txt`).
+- **Real-Time Component Inspector:**
+  - Reflection-based inspector window that dynamically discovers and exposes editable fields (`int`, `float`, `boolean`, `Vector3f`, `Vector4f`) while respecting transient properties.
 - **2D Camera & Math:**
   - Orthographic projection and view matrix transformations via **JOML**.
-  - Camera positioning and viewport adjustments.
+  - Smooth camera panning and viewport adjustments.
 - **Asset Management (`AssetPool`):**
-  - Centralized asset caching for Shaders, Textures, and Spritesheets to prevent redundant disk I/O and GPU memory allocations.
+  - Centralized asset caching for Shaders, Textures, and Spritesheets to prevent redundant disk I/O and GPU allocations.
 - **Custom Shader Pipeline:**
-  - Single-file GLSL shader format (`#type vertex` / `#type fragment`).
+  - Single-file GLSL format (`#type vertex` / `#type fragment`).
   - Automatic shader parsing, compilation, linking, and uniform upload utilities.
-- **Textures & Spritesheets:**
-  - Image loading via `stb_image`.
-  - Spritesheet parsing with sub-pixel UV coordinate mapping.
 - **Input System:**
-  - Polling and event-driven keyboard and mouse tracking (`KeyListner`, `MouseListner`).
-  - Supports mouse position tracking, drag detection, and scroll offsets.
-- **Editor GUI (Dear ImGui):**
-  - Embedded **Dear ImGui** (using `imgui-java`) with LWJGL 3 & OpenGL 3 backends.
-  - High-DPI and framebuffer scaling support for crisp rendering across resolutions and fullscreen/maximized display modes.
+  - Event-driven and polling keyboard/mouse listeners (`KeyListner`, `MouseListner`).
+  - Screen-to-world coordinate conversion (`getOrthoX`, `getOrthoY`), drag detection, and scroll tracking.
 
 ---
 
@@ -41,8 +53,9 @@ A 2D Game Engine built in Java utilizing **LWJGL 3 (Lightweight Java Game Librar
 - **Windowing & Input:** GLFW (via LWJGL 3.3.6)
 - **Math Library:** JOML (Java OpenGL Math Library) 1.10.8
 - **GUI:** Dear ImGui (`imgui-java` 1.86.12)
+- **Serialization:** Google Gson 2.15.0
 - **Image Loading:** STB Image (via LWJGL 3)
-- **Build Tool:** Gradle
+- **Build Tool:** Gradle (Wrapper included)
 
 ---
 
@@ -78,20 +91,30 @@ cd Chase-Engine
 ```
 Chase-Engine/
 ├── app/
-│   ├── build.gradle
+│   ├── build.gradle               # Subproject build definition & dependencies
 │   └── src/main/java/
 │       ├── Main.java              # Application entry point
-│       ├── chase/                 # Core engine systems (Window, Scene, Camera, Input, ImGui)
-│       ├── components/            # Game components (Sprite, SpriteRenderer, Spritesheet)
-│       ├── renderer/              # Batch renderer, Shader, and Texture management
-│       └── util/                  # Asset pooling and resource utilities
+│       ├── chase/                 # Core engine systems (Window, Camera, GameObject, Transform, Input, ImGui, Prefabs)
+│       ├── components/            # Entity components (Component, SpriteRenderer, Rigidbody, MouseControls, GridLines, Deserializers)
+│       ├── physics2d/             # 2D physics subsystem
+│       │   ├── primitives/        # Geometric primitives (AABB, Box2D, Circle, Ray2D, Collider2D, RaycastResult)
+│       │   └── rigidbody/         # Rigidbody2D and IntersectionDetector2D
+│       ├── renderer/              # Batch renderer, DebugDraw, Line2D, Shader, Texture
+│       ├── scenes/                # Scene management (Scene, LevelEditorScene, LevelScene)
+│       └── util/                  # Utilities (AssetPool, JMath, Settings)
 ├── assets/
-│   ├── fonts/                     # TTF Fonts
-│   ├── images/                    # Spritesheets and textures
-│   └── shaders/                   # GLSL shader programs
-├── gradle/                        # Gradle wrapper and version catalog
-├── build.gradle
-├── settings.gradle
+│   ├── fonts/                     # TTF fonts (e.g. Segoe UI)
+│   ├── images/                    # Textures and spritesheets
+│   │   └── spritesheet/           # Spritesheet atlases
+│   └── shaders/                   # GLSL shader files (default.glsl, debugLine2D.glsl)
+├── gradle/
+│   ├── libs.versions.toml         # Version catalog
+│   └── wrapper/                   # Gradle wrapper binaries
+├── gradle.properties
+├── gradlew                        # Gradle wrapper script (Unix)
+├── gradlew.bat                    # Gradle wrapper batch script (Windows)
+├── level.txt                      # Serialized level data
+├── settings.gradle                # Multi-project Gradle settings
 └── README.md
 ```
 

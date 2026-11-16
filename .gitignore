@@ -4,13 +4,24 @@ build/
 **/build/
 !gradle/wrapper/gradle-wrapper.jar
 
-# Java / JVM crash logs
+# Java / JVM
 *.class
 *.log
+*.ctxt
+*.hprof
 hs_err_pid*
 replay_pid*
 
-# ImGui runtime
+# Package Archives (except Gradle wrapper jar)
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+!gradle/wrapper/gradle-wrapper.jar
+
+# ImGui & Editor runtime
 imgui.ini
 *.ini
 
@@ -33,8 +44,20 @@ bin/
 .vscode/
 *.code-workspace
 
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
 # OS-generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 Desktop.ini
 $RECYCLE.BIN/

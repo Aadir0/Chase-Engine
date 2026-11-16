@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'aadi'
+group = 'chase'
 version = '1.0.0'
 
 repositories {
