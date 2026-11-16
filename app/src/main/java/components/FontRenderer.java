@@ -1,7 +1,5 @@
 package components;
 
-import chase.Component;
-
 public class FontRenderer extends Component {
 
     @Override 

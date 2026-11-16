@@ -1,4 +1,4 @@
-package chase;
+package scenes;
 
 import renderer.Renderer;
 
@@ -11,6 +11,11 @@ import java.util.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import chase.Camera;
+import chase.GameObject;
+import components.Component;
+import components.ComponentDeserializer;
+import components.GameObjectDeserializer;
 import imgui.ImGui;
 
 public abstract class Scene {
@@ -95,10 +100,28 @@ public abstract class Scene {
         }
 
         if (!inFile.equals("")) {
+            int maxGoId = -1;
+            int maxCompId = -1;
             GameObject[] objs = gson.fromJson(inFile, GameObject[].class);
             for (int i = 0; i < objs.length; i++) {
                 addGameObjectToScene(objs[i]);
+
+                for (Component c : objs[i].getAllComponents()) {
+                    if (c.getUid() > maxCompId) {
+                        maxCompId = c.getUid();
+                    }
+                }
+                if (objs[i].getUid() > maxGoId) {
+                    maxGoId = objs[i].getUid();
+                }
             }
+
+            maxGoId++;
+            maxCompId++;
+            System.out.println(maxGoId);
+            System.out.println(maxCompId);
+            GameObject.init(maxGoId);
+            Component.init(maxCompId);
             this.loadedLevel = true;
         }
     }

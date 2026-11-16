@@ -52,13 +52,13 @@ public class Texture {
             {
                 assert false : "Error: (Texture) Unknown number of channels '" + channels.get(0) + "'";
             }
+
+            stbi_image_free(image);
         } 
         else
         {
-            assert false : "Error: (Texture) could not load image'" + filepath + "'";
+            assert false : "Error: (Texture) could not load image '" + filepath + "'";
         }
-
-        stbi_image_free(image);
     }
 
     public void bind()
@@ -77,5 +77,9 @@ public class Texture {
 
     public int getHeight() {
         return this.height;
+    }
+
+    public int getId() {
+        return texID;
     }
 }

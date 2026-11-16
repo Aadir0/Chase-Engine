@@ -1,4 +1,4 @@
-package chase;
+package scenes;
 
 public class LevelScene extends Scene{
     public LevelScene() {

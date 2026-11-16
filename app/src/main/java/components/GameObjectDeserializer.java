@@ -1,4 +1,4 @@
-package chase;
+package components;
 
 import java.lang.reflect.Type;
 
@@ -8,6 +8,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
+import chase.GameObject;
+import chase.Transform;
 
 public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 

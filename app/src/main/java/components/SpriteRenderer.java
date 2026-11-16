@@ -4,7 +4,6 @@ import renderer.Texture;
 
 import org.joml.*;
 
-import chase.Component;
 import chase.Transform;
 import imgui.ImGui;
 
